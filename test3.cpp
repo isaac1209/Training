@@ -195,7 +195,7 @@ std::vector<maze::node> maze::directions(const node data) {
 
 void maze::Walls(const maze::node data, const maze::node data2) {
 
-	//efter att vi har valt ut i vilken riktning vi ska gå gör vi en .
+	//efter att vi har valt ut i vilken riktning vi ska gå gör vi en.
 
 	if (data.x > data2.x && data.y == data2.y) {
 		nodeVec[data.x - 1][data.y].v = ' ';
