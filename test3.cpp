@@ -192,38 +192,38 @@ std::vector<maze::node> maze::directions(const node data) {
 	return hold;
 }
 
-//
-//void maze::Walls(const maze::node data, const maze::node data2) {
-//
-//	//efter att vi har valt ut i vilken riktning vi ska gå gör vi en.
-//
-//	if (data.x > data2.x && data.y == data2.y) {
-//		nodeVec[data.x - 1][data.y].v = ' ';
-//		nodeVec[data.x][data.y].v = ' ';
-//
-//
-//	}
-//	else if (data.x < data2.x && data.y == data2.y) {
-//		nodeVec[data.x + 1][data.y].v = ' ';
-//		nodeVec[data.x][data.y].v = ' ';
-//
-//
-//	}
-//	else if (data.y > data2.y && data.x == data2.x) {
-//		nodeVec[data.x][data.y - 1].v = ' ';
-//		nodeVec[data.x][data.y].v = ' ';
-//
-//
-//	}
-//
-//	else
-//	{
-//		nodeVec[data.x][data.y + 1].v = ' ';
-//		nodeVec[data.x][data.y].v = ' ';
-//
-//	}
-//
-//}
+
+void maze::Walls(const maze::node data, const maze::node data2) {
+
+	//efter att vi har valt ut i vilken riktning vi ska gå gör vi en väg.
+
+	if (data.x > data2.x && data.y == data2.y) {
+		nodeVec[data.x - 1][data.y].v = ' ';
+		nodeVec[data.x][data.y].v = ' ';
+
+
+	}
+	else if (data.x < data2.x && data.y == data2.y) {
+		nodeVec[data.x + 1][data.y].v = ' ';
+		nodeVec[data.x][data.y].v = ' ';
+
+
+	}
+	else if (data.y > data2.y && data.x == data2.x) {
+		nodeVec[data.x][data.y - 1].v = ' ';
+		nodeVec[data.x][data.y].v = ' ';
+
+
+	}
+
+	else
+	{
+		nodeVec[data.x][data.y + 1].v = ' ';
+		nodeVec[data.x][data.y].v = ' ';
+
+	}
+
+}
 
 void maze::solve() {
 	std::stack<node> holding;
