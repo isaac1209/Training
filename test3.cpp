@@ -197,19 +197,19 @@ void maze::Walls(const maze::node data, const maze::node data2) {
 
 	//efter att vi har valt ut i vilken riktning vi ska gå gör vi en väg.
 
-	if (data.x > data2.x && data.y == data2.y) {
+	if (data.x > data2.x && data.y == data2.y) { // här kollar vi om det nya x värdet är störe än vår föregående då betyder det att vi ska flyta oss till höger och skappar en väg.
 		nodeVec[data.x - 1][data.y].v = ' ';
 		nodeVec[data.x][data.y].v = ' ';
 
 
 	}
-	else if (data.x < data2.x && data.y == data2.y) {
+	else if (data.x < data2.x && data.y == data2.y) { // här kollar vi om det nya x värdet är mindre än vår föregående då betyder det att vi ska flyta oss till vänster och skappar en väg.
 		nodeVec[data.x + 1][data.y].v = ' ';
 		nodeVec[data.x][data.y].v = ' ';
 
 
 	}
-	else if (data.y > data2.y && data.x == data2.x) {
+	else if (data.y > data2.y && data.x == data2.x) { // här kollar vi om det nya y värdet är störe än vår föregående då betyder det att vi ska flyta oss ner åt och skappar en väg.
 		nodeVec[data.x][data.y - 1].v = ' ';
 		nodeVec[data.x][data.y].v = ' ';
 
@@ -218,18 +218,19 @@ void maze::Walls(const maze::node data, const maze::node data2) {
 
 	else
 	{
-		nodeVec[data.x][data.y + 1].v = ' ';
+		nodeVec[data.x][data.y + 1].v = ' ';  //annars flytar vi oss uppåt och gör en väg.
 		nodeVec[data.x][data.y].v = ' ';
 
 	}
 
 }
 
+// funktionen att lösa mazen fungerar nästan lika som DFS med några ändringar
+
 void maze::solve() {
-	std::stack<node> holding;
-	std::vector<node> path;
+	std::stack<node> holding;  // en stack för att hålla koll på vilka noder vi har varit till och ska inte dit igen 
 	node start;
-	for (int i = 0; i < 33; i++) {
+	for (int i = 0; i < 33; i++) { // for loopen är gjort för att hjälpa oss hitta start noden och stoppa den in i stacken
 		for (int j = 0; j < 33; j++) {
 			if (nodeVec[i][j].v == 'S') {
 				start = nodeVec[start.x = i][start.y = j];
@@ -239,10 +240,11 @@ void maze::solve() {
 		}
 	}
 
-	while (!holding.empty()) {
+	while (!holding.empty()) {   // kolla om stacken är inte tom. Om vilkoren är sant då körs while loopen
 
-		if (check_4_end(start)) {
+		if (check_4_end(start)) {  // här anroppar vi check_4_end för att kollla om vi har kommit till slutet
 
+ // Den här for loopen används för att ta bort alla stjärnor som finns i vektorn eftersom min boolen "visited" fungerade inte som tänkt så jag fick stoppa in stjärnor på alla positioner som jag har varit till.
 			for (int i = 0; i < 33; i++) {
 				for (int j = 0; j < 33; j++) {
 
@@ -258,39 +260,43 @@ void maze::solve() {
 		}
 		else
 		{
+
+			// kollar vi om det är möjligt att gå i en viss riktning. Om det är möjligt så ändrar vi koodinater på noden och flytar in den riktningen och stoppa den i stacken annars provar vi en annan riktning.
 			if (start.x + 1 < 32 && nodeVec[start.x + 1][start.y].v == ' ') {
 				nodeVec[start.x + 1][start.y].v = '.';
 				start.x = start.x + 1;
 				holding.push(start);
-				if (nodeVec[start.x + 1][start.y].v == 'E') { break; }
+
 
 			}
 			else if (start.x - 1 > 0 && nodeVec[start.x - 1][start.y].v == ' ') {
 				nodeVec[start.x - 1][start.y].v = '.';
 				start.x = start.x - 1;
 				holding.push(start);
-				if (nodeVec[start.x - 1][start.y].v == 'E') { break; }
+
 
 			}
 			else if (start.y + 1 < 32 && nodeVec[start.x][start.y + 1].v == ' ') {
 				nodeVec[start.x][start.y + 1].v = '.';
 				start.y = start.y + 1;
 				holding.push(start);
-				if (nodeVec[start.x][start.y + 1].v == 'E') { break; }
+
 
 			}
 			else if (start.y - 1 > 0 && nodeVec[start.x][start.y - 1].v == ' ') {
 				nodeVec[start.x][start.y - 1].v = '.';
 				start.y = start.y - 1;
 				holding.push(start);
-				if (nodeVec[start.x][start.y - 1].v == 'E') { break; }
+
 
 			}
 			else
 			{
+				// om det inte finns någon riktning att gå då baka vi ett steg bakot genom att popa ut vår nuvarande position vilket är noden som ligger längst upp på stacken
+
 				holding.pop();
-				nodeVec[start.x][start.y].v = '*';
-				start = holding.top();
+				nodeVec[start.x][start.y].v = '*'; // sedan sätter vi en stjärna på den positionen att visa att vi har varit där förutt och ska inte dit igen.
+				start = holding.top();				// sendan ändra vi start noden att den ska lika det som fins på toppen av stacken så vi kan kolla om den har några riktningar som vi inte har varit till
 			}
 
 		}
@@ -300,6 +306,9 @@ void maze::solve() {
 
 
 }
+
+
+//  här kollar vi bara om vi har kommit till sluttet
 
 bool maze::check_4_end(node data) {
 

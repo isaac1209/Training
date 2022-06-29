@@ -24,9 +24,6 @@
     <ClCompile Include="test3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="workingCode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
